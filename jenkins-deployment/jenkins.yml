@@ -56,7 +56,7 @@ kind: Service
 metadata:
   name: jenkins
 spec:
-  type: ClusterIP
+  type: LoadBalancer   # k3s exposes this on the node IP
   selector:
     app: jenkins
   ports:

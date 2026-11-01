@@ -28,7 +28,7 @@ spec:
         fsGroup: 1000       # jenkins user owns /var/jenkins_home
       containers:
         - name: jenkins
-          image: YOUR_REGISTRY/jenkins-custom:1.0   # build from your Dockerfile and push
+          image: 565950323291.dkr.ecr.eu-central-1.amazonaws.com/real-time-fraud-detection-ml-api/jenkins-custom:1.0   # build from your Dockerfile and push
           ports:
             - containerPort: 8080
             - containerPort: 50000

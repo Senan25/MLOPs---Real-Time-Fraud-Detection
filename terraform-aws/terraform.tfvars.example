@@ -1,0 +1,14 @@
+
+aws_region  = "eu-central-1"
+project_name = "real-time-fraud-detection"
+
+vpc_cidr = "10.0.0.0/16"
+
+db_name           = "frauddb"
+db_username       = "dbadmin"
+db_instance_class = "db.t4g.micro"
+
+db_allocated_storage = 20
+
+# VPN qurulana qədər boş saxlayırıq.
+allowed_db_cidr_blocks = []

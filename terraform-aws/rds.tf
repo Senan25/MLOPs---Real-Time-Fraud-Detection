@@ -1,11 +1,12 @@
-
 resource "aws_db_subnet_group" "main" {
   name = "${var.project_name}-db-subnet-group"
+
+  # Keep the existing subnets currently used by RDS
   subnet_ids = [
     for subnet in aws_subnet.private : subnet.id
   ]
 
-  description = "Private subnets for Fraud Detection RDS"
+  description = "RDS subnets with Internet Gateway routing"
 
   tags = {
     Name = "${var.project_name}-db-subnet-group"
@@ -31,7 +32,7 @@ resource "aws_db_instance" "postgres" {
   db_subnet_group_name   = aws_db_subnet_group.main.name
   vpc_security_group_ids = [aws_security_group.rds.id]
 
-  publicly_accessible = false
+  publicly_accessible = true
   multi_az            = false
 
   backup_retention_period    = 1

@@ -1,31 +1,56 @@
+
 apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: prod-transaction-data-generator
 spec:
-  schedule: "*/60 * * * *"          # every 1 hour
+  schedule: "0 */12 * * *"
   concurrencyPolicy: Forbid
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
+
   jobTemplate:
     spec:
       backoffLimit: 1
       template:
         spec:
           restartPolicy: Never
+
           containers:
             - name: generator
               image: 565950323291.dkr.ecr.eu-central-1.amazonaws.com/prod-transaction-data-generator:latest
-              envFrom:
-                - secretRef:
-                    name: fraud-db   # DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD
+
               env:
+                - name: DB_HOST
+                  value: "real-time-fraud-detection-postgres.cp8kww228jvc.eu-central-1.rds.amazonaws.com"
+
+                - name: DB_PORT
+                  value: "5432"
+
+                - name: DB_NAME
+                  value: "frauddb"
+
+                - name: DB_USER
+                  valueFrom:
+                    secretKeyRef:
+                      name: rds-db-credentials
+                      key: username
+
+                - name: DB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: rds-db-credentials
+                      key: password
+
                 - name: BATCH_SIZE
                   value: "500"
+
                 - name: WINDOW_MINUTES
                   value: "5"
+
                 - name: FRAUD_RATE
                   value: "0.02"
+
               resources:
                 requests:
                   cpu: 50m

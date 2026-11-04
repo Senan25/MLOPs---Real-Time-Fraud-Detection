@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/D%20diski/Data/Projects/Real%20Time%20Fraud%20Detection/mlruns/418261308561670962/ddc96e5f9c7d4bc5b002c146a4f2740c/artifacts
+end_time: 1793822869292
+entry_point_name: ''
+experiment_id: '418261308561670962'
+lifecycle_stage: active
+run_id: ddc96e5f9c7d4bc5b002c146a4f2740c
+run_name: hilarious-auk-272
+run_uuid: ddc96e5f9c7d4bc5b002c146a4f2740c
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1793822869238
+status: 3
+tags: []
+user_id: senan

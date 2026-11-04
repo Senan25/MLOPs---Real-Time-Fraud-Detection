@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/D%20diski/Data/Projects/Real%20Time%20Fraud%20Detection/mlruns/418261308561670962/33400433f0db4d63af5d7ff3114212e1/artifacts
+end_time: 1793823221229
+entry_point_name: ''
+experiment_id: '418261308561670962'
+lifecycle_stage: active
+run_id: 33400433f0db4d63af5d7ff3114212e1
+run_name: nebulous-bat-720
+run_uuid: 33400433f0db4d63af5d7ff3114212e1
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1793823221173
+status: 3
+tags: []
+user_id: senan

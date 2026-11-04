@@ -1,21 +1,9 @@
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: mlflow-data
-spec:
-  accessModes: ["ReadWriteOnce"]
-  resources:
-    requests:
-      storage: 10Gi
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mlflow
 spec:
   replicas: 1
-  strategy:
-    type: Recreate          # SQLite + ReadWriteOnce volume: only one pod at a time
   selector:
     matchLabels:
       app: mlflow
@@ -27,13 +15,23 @@ spec:
       containers:
         - name: mlflow
           image: ghcr.io/mlflow/mlflow:v2.22.0
-          command: ["mlflow", "server"]
+          command: ["sh", "-c"]
           args:
-            - --host=0.0.0.0
-            - --port=5000
-            - --backend-store-uri=real-time-fraud-detection-postgres.cp8kww228jvc.eu-central-1.rds.amazonaws.com   # runs, params, metrics
-            - --artifacts-destination=https://565950323291-pxuu7epw.eu-central-1.console.aws.amazon.com/s3/buckets/real-time-fraud-detection-data-565950323291?region=eu-central-1        # models, plots, files
-            - --serve-artifacts                                 # clients upload artifacts over HTTP
+            - >-
+              pip install --no-cache-dir psycopg2-binary boto3 &&
+              exec mlflow server
+              --host 0.0.0.0 --port 5000
+              --backend-store-uri "$BACKEND_URI"
+              --artifacts-destination "$ARTIFACT_URI"
+              --serve-artifacts
+          envFrom:
+            - secretRef:
+                name: mlflow-secrets    # BACKEND_URI, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
+          env:
+            - name: ARTIFACT_URI
+              value: s3://real-time-fraud-detection-data-565950323291/mlflow-artifacts
+            - name: AWS_DEFAULT_REGION
+              value: eu-central-1
           ports:
             - containerPort: 5000
           resources:
@@ -46,14 +44,7 @@ spec:
             httpGet:
               path: /health
               port: 5000
-            initialDelaySeconds: 15
-          volumeMounts:
-            - name: data
-              mountPath: /mlflow
-      volumes:
-        - name: data
-          persistentVolumeClaim:
-            claimName: mlflow-data
+            initialDelaySeconds: 40
 ---
 apiVersion: v1
 kind: Service

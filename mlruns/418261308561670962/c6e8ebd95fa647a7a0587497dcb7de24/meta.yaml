@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/D%20diski/Data/Projects/Real%20Time%20Fraud%20Detection/mlruns/418261308561670962/c6e8ebd95fa647a7a0587497dcb7de24/artifacts
+end_time: 1793822555602
+entry_point_name: ''
+experiment_id: '418261308561670962'
+lifecycle_stage: active
+run_id: c6e8ebd95fa647a7a0587497dcb7de24
+run_name: kindly-snipe-233
+run_uuid: c6e8ebd95fa647a7a0587497dcb7de24
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1793822555498
+status: 3
+tags: []
+user_id: senan
